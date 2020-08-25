@@ -8,6 +8,7 @@ export default new GraphQLSchema({
           name: 'RootQueryType',
           fields: {
                SignUP: userQuery.Sign,
+               Login: userQuery.Login,
           }
      })
 });

@@ -4,7 +4,7 @@ import {
 // import mongoose from 'mongoose';
 // const User = mongoose.model('User');
 
-import SignUp from './type';
+import SignUp, { getToken } from './type';
 
 let userDetail = {
      Sign: {
@@ -37,9 +37,27 @@ let userDetail = {
                }
           },
           resolve: async (root, args) => {
-               // console.log('root', root)
+               console.log('root', root);
                console.log('data', args);
                return args;
+          }
+     },
+     Login: {
+          type: getToken,
+          description: 'User Auth Token',
+          args: {
+               identifier: {
+                    type: new GraphQLNonNull(GraphQLString),
+                    description: 'User Identifier (Username/email)'
+               },
+               password: {
+                    type: new GraphQLNonNull(GraphQLString),
+                    description: 'User Password'
+               }
+          },
+          resolve: async (_, args) => {
+               console.log('User Login Successfully', args);
+               return true;
           }
      }
 };

@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 // import crypto from 'crypto';
 const Schema = mongoose.Schema;
-const abc = 'https://s3.amazonaws.com/mybucket'; // path where your images stored
+const default_image = 'https://res.cloudinary.com/mr-cloudinary/image/upload/v1598377778/Profile/images_s8bmbq.jpg'; // path where your images stored
+const storage = 'https://res.cloudinary.com/mr-cloudinary/image/upload/v1598377778/Profile';
 
 let userSchema = new Schema({
 
@@ -14,9 +15,10 @@ let userSchema = new Schema({
           type: String,
           trim: true
      },
-     nick_name: {
+     username: {
           type: String,
-          trim: true
+          trim: true,
+          required: true
      },
 
      dob: {
@@ -36,8 +38,8 @@ let userSchema = new Schema({
 
      profile_pic: {
           type: String,
-          default: '',
-          get: pic => `${abc}/${pic}`
+          default: default_image,
+          get: pic => `${storage}/${pic}`
      },
      email: {
           type: String,
