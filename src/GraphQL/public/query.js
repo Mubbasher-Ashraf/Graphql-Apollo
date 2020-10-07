@@ -1,8 +1,8 @@
 import {
      GraphQLString, GraphQLNonNull, GraphQLInt
 } from 'graphql';
-// import mongoose from 'mongoose';
-// const User = mongoose.model('User');
+import mongoose from 'mongoose';
+const User = mongoose.model('User');
 
 import SignUp, { getToken } from './type';
 

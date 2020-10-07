@@ -49,7 +49,10 @@
     "nodemon": "^2.0.4"
   },
   "nodemonConfig": {
-    "ignore": ["node_modules/*", "package-lock.json"]
+    "ignore": [
+      "node_modules/*",
+      "package-lock.json"
+    ]
   },
   "engines": {
     "node": ">= 10.0.1",
