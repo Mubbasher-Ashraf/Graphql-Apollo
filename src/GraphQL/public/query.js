@@ -3,7 +3,7 @@ import {
 } from 'graphql';
 import mongoose from 'mongoose';
 const User = mongoose.model('User');
-
+import { signUpValidator } from './auth.validator';
 import SignUp, { getToken } from './type';
 
 let userDetail = {
@@ -36,9 +36,11 @@ let userDetail = {
                     description: 'Password'
                }
           },
-          resolve: async (root, args) => {
-               console.log('root', root);
-               console.log('data', args);
+          resolve: async (_, args) => {
+               let { error, isEmpty } = await signUpValidator(args);
+               if (!isEmpty) {
+				throw new Error(JSON.stringify(error));
+               }
                return args;
           }
      },
