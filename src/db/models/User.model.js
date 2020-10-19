@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-// import crypto from 'crypto';
+import crypto from 'crypto';
 const Schema = mongoose.Schema;
 const default_image = 'https://res.cloudinary.com/mr-cloudinary/image/upload/v1598377778/Profile/images_s8bmbq.jpg'; // path where your images stored
 const storage = 'https://res.cloudinary.com/mr-cloudinary/image/upload/v1598377778/Profile';
@@ -23,7 +23,7 @@ let userSchema = new Schema({
 
      dob: {
           type: Date,
-          default: 'YYYY-MM-DD'
+          // default: 'YYYY-MM-DD'
      },
      gender: {
           type: String,
@@ -108,82 +108,85 @@ let userSchema = new Schema({
 // });
 userSchema.virtual('full_name')
      .get(function () {
-          return (this.first_name + this.last_name);
+          return (this.first_name + ' ' + this.last_name);
      });
 
 
 //aggregate hook
-userSchema.pre('aggregate', function () {
-     // Add a $match state to the beginning of each pipeline.
-     this.pipeline().unshift({ $match: { self_delete: { $ne: true } } });
-});
+// userSchema.pre('aggregate', function () {
+//      // Add a $match state to the beginning of each pipeline.
+//      this.pipeline().unshift({ $match: { self_delete: { $ne: true } } });
+// });
 
 // Error handling middlware for unique field
-userSchema.post('save', function (error, doc, next) {
-     if (error.name === 'MongoError' && error.code === 11000) {
-          next(new Error('There was a duplicate key error'));
-     } else {
-          next();
-     }
-});
+// userSchema.post('save', function (error, doc, next) {
+//      if (error.name === 'MongoError' && error.code === 11000) {
+//           next(new Error('There was a duplicate key error'));
+//      } else {
+//           next();
+//      }
+// });
 
 // pre validate hook
-userSchema.pre('validate', function () {
-     console.log('this will run before any pre.save middlware');
+userSchema.pre('validate', function (next) {
+     // console.log('this will run before any pre.save middlware'); you can apply custome validations
+     next();
 });
 
 /** pre hooks */
-userSchema.pre('save', async function () {
-     // call call other function here
-     return; // next()
+userSchema.pre('save', async function (next) {
+     if (this.isNew) {
+          this.setPassword(this.password);
+     }
+     next();
 });
 
-userSchema.pre('remove', { query: true }, function () {
-     // {query:true } will call this when we do Model.remove
-     // {document:true} will call this if we do document.remove
-     console.log('removing...');
-});
+// userSchema.pre('remove', { query: true }, function () {
+//      // {query:true } will call this when we do Model.remove
+//      // {document:true} will call this if we do document.remove
+//      console.log('removing...');
+// });
 
 //Pre and post save() hooks are not executed on update(), findOneAndUpdate()
-userSchema.pre('find', function () {
-     this.start = Date.now();
-});
+// userSchema.pre('find', function () {
+//      this.start = Date.now();
+// });
 
-userSchema.pre('updateOne', { document: true, query: false }, function () {
-     this.set({ updatedAt: new Date() });
-});
+// userSchema.pre('updateOne', { document: true, query: false }, function () {
+//      this.set({ updatedAt: new Date() });
+// });
 //You cannot access the document being updated in pre('updateOne') or pre('findOneAndUpdate') query middleware
-userSchema.pre('findOneAndUpdate', async function () {
-     const docToUpdate = await this.model.findOne(this.getQuery());
-     console.log(docToUpdate); // The document that `findOneAndUpdate()` will modify
-});
+// userSchema.pre('findOneAndUpdate', async function () {
+//      // const docToUpdate = await this.model.findOne(this.getQuery());
+//      console.log('docToUpdate'); // The document that `findOneAndUpdate()` will modify
+// });
 
 
 /** post hooks  call after all pre hooks middlwares*/
-userSchema.post('update', function (error, res, next) {
-     if (error.name === 'MongoError' && error.code === 11000) {
-          next(new Error('There was a duplicate key error'));
-     } else {
-          next(); // The `update()` call will still error out.
-     }
-});
+// userSchema.post('update', function (error, res, next) {
+//      if (error.name === 'MongoError' && error.code === 11000) {
+//           next(new Error('There was a duplicate key error'));
+//      } else {
+//           next(); // The `update()` call will still error out.
+//      }
+// });
 
 userSchema.post('save', function (user, next) {
-     console.log('User saved', user._id);
+     console.log('User saved', user.toJSON());
      next(); // call next run susequent hooks after this 
 });
 
-userSchema.post('remove', function (user) {
-     console.log('User removed', user._id);
-});
+// userSchema.post('remove', function (user) {
+//      console.log('User removed', user._id);
+// });
 
-userSchema.post('find', function (doc) {
-     // prints returned documents
-     console.log('find() returned ' + JSON.stringify(doc));
-     // prints number of milliseconds the query took
-     console.log('find() took ' + (Date.now() - this.start) + ' millis');
-     //this refers to the query object rather than the document being updated
-});
+// userSchema.post('find', function (doc) {
+//      // prints returned documents
+//      console.log('find() returned ' + JSON.stringify(doc));
+//      // prints number of milliseconds the query took
+//      console.log('find() took ' + (Date.now() - this.start) + ' millis');
+//      //this refers to the query object rather than the document being updated
+// });
 
 
 /** Query methods of Schema */
@@ -201,18 +204,36 @@ userSchema.methods = {
      validatePassword: function (password) {
      },
      setPassword: function (password) {
+          let salt = crypto.randomBytes(16).toString('hex');
+          this.password = crypto.pbkdf2Sync(password, salt, 1000, 512, 'sha512').toString('hex');
      },
      toJSON: function () {
           return {
-
+               _id: this._id,
+               username: this.username,
+               email: this.email,
+               full_name: this.full_name,
+               nickname: this.nickname,
+               first_name: this.first_name,
+               last_name: this.last_name
           };
      },
 };
 
 /** Static methods of Schema */
 userSchema.statics = {
-     createNew: async function (data) {
-
+     newUser: async function (data) {
+          const { first_name, last_name, email, nickname, age, password } = data;
+          let user = new this();//{
+          user.first_name = first_name,
+          user.last_name = last_name,
+          user.username = 'Mubbasher';
+          user.email = email,
+          user.nickname = nickname || '',
+          user.age = age || 75,
+          user.password = password;
+          await user.save();
+          return user;
      },
      findByIdentifier: async function (identifier) {
 

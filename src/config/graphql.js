@@ -8,9 +8,11 @@ export default function (app) {
      //public graphql endpoint
      app.use("/api/auth", graphqlHTTP(async (request, response, graphQLParams) => ({
           schema: publicSchema,
+          pretty: true,
           graphiql: true,
           customFormatErrorFn: error => ({
                message: error.message,
+               locations: error.locations,
                path: error.path,
                stack: error.stack ? error.stack.split('\n') : []
           })

@@ -4,6 +4,7 @@ import {
 import mongoose from 'mongoose';
 const User = mongoose.model('User');
 import { signUpValidator } from './auth.validator';
+import { createUser } from './userController';
 import SignUp, { getToken } from './type';
 
 let userDetail = {
@@ -41,7 +42,7 @@ let userDetail = {
                if (!isEmpty) {
 				throw new Error(JSON.stringify(error));
                }
-               return args;
+               return createUser(args);
           }
      },
      Login: {
