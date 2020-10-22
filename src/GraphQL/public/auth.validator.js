@@ -25,4 +25,17 @@ export const signUpValidator = async (data) => {
      };
 };
 
-// export default signUpValidator;
+export const loginValidator = async (data) => {
+     const error = {};
+
+     if (Validator.isEmpty(data.identifier)) {
+          error.field = 'identifer required field';
+     }
+     if (Validator.isEmpty(data.password)) {
+          error.field = 'password required field';
+     }
+     return {
+          isEmpty: isEmpty(error),
+          error
+     };
+};

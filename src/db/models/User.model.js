@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import config from '../../config/config';
 const Schema = mongoose.Schema;
-const default_image = 'https://res.cloudinary.com/mr-cloudinary/image/upload/v1598377778/Profile/images_s8bmbq.jpg'; // path where your images stored
-const storage = 'https://res.cloudinary.com/mr-cloudinary/image/upload/v1598377778/Profile';
+const default_image = config.DEFAULT_IMAGE_URL; 
+const storage = config.CLOUDINARY_URL; // path where your images stored
 
 let userSchema = new Schema({
 
@@ -51,7 +53,7 @@ let userSchema = new Schema({
           required: true
      },
      email_verified: { type: Boolean, default: false },
-     hash: { type: String },
+     hash_salt: { type: String },
 
      is_online: { type: Boolean, default: false },
      self_delete: { type: Boolean, default: false },
@@ -202,10 +204,20 @@ userSchema.query = {
 /** Instance methods of Schema */
 userSchema.methods = {
      validatePassword: function (password) {
+          let hashed = crypto.pbkdf2Sync(password, this.hash_salt, 1000, 512, 'sha512').toString('hex');
+          return this.password = hashed;
      },
      setPassword: function (password) {
           let salt = crypto.randomBytes(16).toString('hex');
+          this.hash_salt = salt;
           this.password = crypto.pbkdf2Sync(password, salt, 1000, 512, 'sha512').toString('hex');
+     },
+     generateJWT: function () {
+          return jwt.sign({
+               id: this._id,
+               username: this.username,
+               email: this.email
+           }, config.value.JWT_SECRET, { expiresIn: '1y' });
      },
      toJSON: function () {
           return {
@@ -216,6 +228,15 @@ userSchema.methods = {
                nickname: this.nickname,
                first_name: this.first_name,
                last_name: this.last_name
+          };
+     },
+     toAuthJSON: function () {
+          return {
+               id: this._id,
+               username: this.username,
+               first_name: this.first_name,
+               email: this.email,
+               Token: this.generateJWT(),
           };
      },
 };
@@ -235,8 +256,16 @@ userSchema.statics = {
           await user.save();
           return user;
      },
-     findByIdentifier: async function (identifier) {
+     Login: async function (data) {
+          const { identifier, password } = data;
 
+     },
+     findByIdentifier: async function (data) {
+          const { identifier, password } = data;
+          let user = await this.findOne({ $or: [{ username: identifier }, { email: identifier }] });
+          if (user && user.validatePassword(password)) {
+               return user.toAuthJSON();
+          }
      },
      getAllUsers: async function () {
 

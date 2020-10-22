@@ -13,9 +13,13 @@ const Schema = Joi.object({
      //Server Credentials
      SERVER_HOST: Joi.string().default('127.0.0.1'),
      SERVER_PORT: Joi.number().required().default(8080),
-     RESET_PASSWORD_SECRET: Joi.string().required().description('Email Confirmation Secret required to SignIn'),
+     RESET_PASSWORD_SECRET: Joi.string().required().description('Password Reset Secret required'),
 
-     MONGO_DB_URL: Joi.string().required().description('Mongo db connection url'),
+     MONGO_DB_URL: Joi.string().required().description('Mongo db connection url Required'),
+
+     JWT_SECRET: Joi.string().required().description('Jwt Secret Required'),
+     DEFAULT_IMAGE_URL: Joi.string(),
+     CLOUDINARY_URL: Joi.string().required().description('Cloudinary Image storage URL required')
 
 }).required();
 
