@@ -173,8 +173,8 @@ userSchema.pre('save', async function (next) {
 //      }
 // });
 
-userSchema.post('save', function (user, next) {
-     console.log('User saved', user.toJSON());
+userSchema.post('save', function (_, next) {
+     // console.log('User saved', user.toJSON());
      next(); // call next run susequent hooks after this 
 });
 

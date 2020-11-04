@@ -7,8 +7,13 @@ export default new GraphQLSchema({
      query: new GraphQLObjectType({
           name: 'RootQueryType',
           fields: {
-               SignUP: userQuery.Sign,
                Login: userQuery.Login,
+          }
+     }),
+     mutation: new GraphQLObjectType({
+          name: 'RootMutationType',
+          fields: {
+               SignUP: userQuery.Sign,
           }
      })
 });

@@ -6,7 +6,9 @@
   "description": "React with Apollo and Node with Graphql + mongoDB",
   "scripts": {
     "dev": "nodemon --watch .env --watch . --exec babel-node src",
-    "inspect": "nodemon --inspect --watch .env --watch . --exec babel-node src --source-maps"
+    "client": "npm start --prefix client",
+    "inspect": "nodemon --inspect --watch .env --watch . --exec babel-node src --source-maps",
+    "concurrent": "concurrently \"npm run dev\" \"npm run client\""
   },
   "author": "Mubbasher Ashraf",
   "license": "ISC",

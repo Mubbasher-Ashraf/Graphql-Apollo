@@ -18,9 +18,11 @@ const Schema = Joi.object({
      MONGO_DB_URL: Joi.string().required().description('Mongo db connection url Required'),
 
      JWT_SECRET: Joi.string().required().description('Jwt Secret Required'),
-     DEFAULT_IMAGE_URL: Joi.string(),
-     CLOUDINARY_URL: Joi.string().required().description('Cloudinary Image storage URL required')
 
+     DEFAULT_IMAGE_URL: Joi.string(),
+     CLOUDINARY_URL: Joi.string().required().description('Cloudinary Image storage URL required'),
+     
+     CAPTCHA_SITE_KEY: Joi.string().required().description('Captcha Site Key is required')
 }).required();
 
 const envVars = Schema.validate(process.env);

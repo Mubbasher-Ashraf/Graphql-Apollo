@@ -1,0 +1,25 @@
+
+.custome_class {
+    width: 35% !important;
+    margin-top: 5rem !important;
+    margin-left: 24rem !important;
+}
+.register {
+    width: 100% !important;
+    border-radius: 1rem !important;
+    top: 0em;
+    height: 3rem !important;
+}
+.header_class {
+    justify-content: center !important;
+    margin-left: 15rem !important;
+    margin-bottom: 1rem !important;
+    text-decoration: underline;
+    font-family: fantasy;
+}
+.main_div {
+    background-color: #cbffc6;
+}
+.ant-picker {
+    display: block !important;
+}
