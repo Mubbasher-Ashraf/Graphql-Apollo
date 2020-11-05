@@ -1,6 +1,5 @@
 import express from 'express';
 import fs from 'fs';
-// import http from 'http';
 import helmet from 'helmet';
 import path from 'path';
 import cors from 'cors';
@@ -8,10 +7,6 @@ import '../db';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import graphql from './graphql';
-// import '../models';
-// import chalk from 'chalk';
-// import { graphqlHTTP } from 'express-graphql';
-// import publicSchema from '../GraphQL/public';
 
 const app = express();
 

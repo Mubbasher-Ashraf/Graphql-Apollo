@@ -1,8 +1,6 @@
 import {
      GraphQLString, GraphQLNonNull, GraphQLInt
 } from 'graphql';
-import mongoose from 'mongoose';
-const User = mongoose.model('User');
 import { signUpValidator, loginValidator } from './auth.validator';
 import { createUser, Login } from './userController';
 import SignUp, { getToken } from './type';
