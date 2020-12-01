@@ -10,7 +10,7 @@ import client from './ApolloSetup';
 render(
   <ApolloProvider client={client}>
     <App />
-    </ApolloProvider>
+  </ApolloProvider>
   , document.getElementById('root')
 );
 

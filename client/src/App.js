@@ -3,6 +3,7 @@ import './App.css';
 import Register from './components/SignUp/Register';
 import ProtectedRoute from '../src/routes/Private';
 import Dashboard from './components/Dasboard/Dashboard';
+// import ErrorBoundary from './ErrorBoundary';
 function App() {
   return (
     <div className="App">
