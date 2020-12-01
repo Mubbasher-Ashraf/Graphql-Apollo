@@ -12,7 +12,17 @@ const { Option } = Select;
 const Register = () => {
   const [form] = Form.useForm();
   const [SignUP, { data, loading, error }] = useMutation(User_Sign_Up);
-
+  //update apollo cache after query
+  /*const [SignUP, { data, loading, error }] = useMutation(User_Sign_Up, 
+    update(cache, {data: {SIGNUP}}) {
+    const allUsersList = cache.readQuery({query: ALL_USER_LIST})
+    cache.writeQuery({
+    query: ALL_USER_LIST,
+    data: {usersList: [SIGNUP, ...allUsersList.data]}
+    })
+    }
+    )
+  */
   const getCaptcha = () => {
     let x = Math.random().toString(24);
     x = x.substr(2, x.length);
@@ -23,14 +33,26 @@ const Register = () => {
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
-    const { email, password, dob } = values;
+    const { email, password } = values; //, dob
     SignUP({
       variables: {
         email,
         // username,
         password,
         age: 25//new Date(dob).toISOString()
-      }
+      }, 
+      /** 
+       * optimisticResponse: {
+          __typename: "Mutation",
+          SIGNUP: {
+            __typename: 'SignUP',
+            id: Math.floor(Math.random() * 1000),
+            name: 'abcd',
+            pass: 'good',
+            img: 'default placeholder'
+          }
+        }
+      */
     })
   };
 
@@ -55,7 +77,7 @@ const Register = () => {
     </Form.Item>
   );
       
-  if (!error) {
+  if (!error && !loading) {
     console.log('data------------------->', data);
   }
   return (
@@ -72,10 +94,7 @@ const Register = () => {
         }}
         scrollToFirstError
       >
-        <PageHeader
-          className="site-page-header header_class"
-          title="SIGN UP"
-        />
+        <PageHeader className="site-page-header header_class" title="SIGN UP" />
         <Form.Item
           name="email"
           label="E-mail"
