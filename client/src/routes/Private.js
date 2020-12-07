@@ -9,7 +9,7 @@ import { Redirect, Route } from 'react-router-dom';
          render={ props => 
             isAuthenticated ? 
             <Component {...props} /> :
-            <Redirect to={{ pathname: '/' }} />
+            <Redirect to={{ pathname: '/dashboard' }} />
          }
         />
      )

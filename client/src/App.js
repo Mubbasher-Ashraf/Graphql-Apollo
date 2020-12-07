@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" component={ Register }/>
-          <ProtectedRoute exact path="/dashboard" component={ Dashboard }/>
+          <ProtectedRoute path="/dashboard" component={ Dashboard }/>
         </Switch>
       </Router>
     </div>

@@ -1,5 +1,8 @@
 import { Form, Input, Tooltip,  Select, Row, Col, Checkbox,//Cascader,
    Button, PageHeader, DatePicker } from 'antd'; //AutoComplete,
+import { withRouter } from 'react-router-dom';
+import Modal from '../../portals/Modal';
+import Loader from '../../common/Loader';
 import './register.css';
 import 'antd/dist/antd.css';
 import { formItemLayout, tailFormItemLayout } from './RegisterHelper';
@@ -8,9 +11,9 @@ import { User_Sign_Up } from './Graphql';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
-
-const Register = () => {
+const Register = (props) => {
   const [form] = Form.useForm();
+  let lds = true;
   const [SignUP, { data, loading, error }] = useMutation(User_Sign_Up);
   //update apollo cache after query
   /*const [SignUP, { data, loading, error }] = useMutation(User_Sign_Up, 
@@ -60,8 +63,11 @@ const Register = () => {
     console.log("Error while query-----------", error);
     return null;
   }
-  if (loading) {
+  if (lds) {
     console.log('loading------------->', loading);
+    <Modal>
+      <Loader />
+    </Modal>
   }
 
   const prefixSelector = (
@@ -77,8 +83,11 @@ const Register = () => {
     </Form.Item>
   );
       
-  if (!error && !loading) {
+  if (data && data.SignUP) {
     console.log('data------------------->', data);
+    setTimeout(() => {
+      props.history.push("/dashboard");
+    }, 2500);
   }
   return (
     <div className="main_div">
@@ -253,4 +262,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default withRouter(Register);
