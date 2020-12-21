@@ -4,6 +4,7 @@ import {
 import { signUpValidator, loginValidator } from './auth.validator';
 import { createUser, Login } from './userController';
 import SignUp, { getToken } from './type';
+import Email from '../../services/nodemailer';
 
 let userDetail = {
      Sign: {
@@ -40,6 +41,7 @@ let userDetail = {
                if (!isEmpty) {
 				throw new Error(JSON.stringify(error));
                }
+               await Email('Successfull Sign Up Process');
                return createUser(args);
           }
      },
