@@ -1,4 +1,5 @@
 import { Layout, Menu, PageHeader, Button } from "antd";
+import { Link } from 'react-router-dom';
 import {
   // AppstoreOutlined,
   BarChartOutlined,
@@ -15,6 +16,11 @@ import "./dashboard.css";
 const { Header, Content, Footer, Sider } = Layout;
 
 const Dashboard = () => {
+
+  // const handleSignOut = () => { 
+
+  // };
+
   return (
     <Layout>
       <Sider
@@ -55,13 +61,15 @@ const Dashboard = () => {
         <PageHeader
           ghost={true}
         //   onBack={() => window.history.back()}
-          title="Title"
+          // title="Title"
         //   subTitle="This is a subtitle"
           extra={[
-              <Button type="primary" style={{background: "#070235db", borderRadius: '1rem'}}>
-                <LogoutOutlined rotate="-90" />
-                SignOut
-            </Button>
+              <Link to={{pathname: '/Login'}}>
+                <Button type="primary" style={{ background: "#070235db", borderRadius: '1rem' }}>
+                  <LogoutOutlined rotate="-90" />
+                    SignOut
+                </Button>
+              </Link>
           ]}
         ></PageHeader>
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>

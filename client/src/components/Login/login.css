@@ -1,0 +1,15 @@
+.login-form {
+  position: relative;
+  top: 10rem;
+  padding-left: 15rem;
+  padding-right: 15rem;
+  }
+  .login-form-forgot {
+    float: right;
+  }
+  .ant-col-rtl .login-form-forgot {
+    float: left;
+  }
+  .login-form-button {
+    width: 100%;
+  }
