@@ -6,9 +6,9 @@
 }
 .register {
     width: 100% !important;
-    border-radius: 1rem !important;
+    border-radius: 1em !important;
     top: 0em;
-    height: 3rem !important;
+    height: 2rem !important;
 }
 .header_class {
     justify-content: center !important;
@@ -18,7 +18,8 @@
     font-family: fantasy;
 }
 .main_div {
-    background-color: #cbffc6;
+    background-color: #b5c1b4;
+    height: 41rem;
 }
 .ant-picker {
     display: block !important;

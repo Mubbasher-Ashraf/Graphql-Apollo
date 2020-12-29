@@ -52,17 +52,14 @@ const Login = () => {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        {/* <a className="login-form-forgot" href="">
-          Forgot password
-        </a> */}
+        <Link className="login-form-forgot" to={{ pathname: '/forget-password'}}> Forgot password! </Link>
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
+        <Link to={{ pathname: '/'}}> register now! </Link>
           Log in
         </Button>
-        {/* Or <a href="">register now!</a> */}
-        <Link to={{ pathname: '/'}}> register now! </Link>
       </Form.Item>
     </Form>
   );

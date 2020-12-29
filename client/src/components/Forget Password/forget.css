@@ -1,0 +1,15 @@
+.forget_password-form {
+    position: relative;
+    top: 10rem;
+    padding-left: 30rem;
+    padding-right: 30rem;
+    }
+    /* .forget-password-button {
+      float: right;
+    } */
+    .ant-col-rtl .forget-password-button {
+      float: left;
+    }
+    .forget-password-button {
+      width: 100%;
+    }

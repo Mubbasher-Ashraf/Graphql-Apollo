@@ -13,9 +13,6 @@ const Forget = () => {
     <Form
       name="forget_password"
       className="forget_password-form"
-    //   initialValues={{
-    //     remember: true,
-    //   }}
       onFinish={onFinish}
     >
       <Form.Item
@@ -35,7 +32,7 @@ const Forget = () => {
         </Form.Item>
 
         <Form.Item
-        name="forgot_password"
+        name="forget_password"
         rules={[
           {
             required: true,
@@ -51,11 +48,10 @@ const Forget = () => {
         </Form.Item>
           
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
+        <Button type="primary" htmlType="submit" className="forget-password-button">
+          Reset Password
         </Button>
-        {/* Or <a href="">register now!</a> */}
-        <Link to={{ pathname: '/'}}> Login! </Link>
+        <Link to={{ pathname: '/Login'}}> Login! </Link>
       </Form.Item>
     </Form>
   );

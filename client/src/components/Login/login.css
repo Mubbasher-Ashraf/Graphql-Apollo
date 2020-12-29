@@ -1,13 +1,13 @@
 .login-form {
   position: relative;
   top: 10rem;
-  padding-left: 15rem;
-  padding-right: 15rem;
+  padding-left: 30rem;
+  padding-right: 30rem;
   }
   .login-form-forgot {
     float: right;
-  }
-  .ant-col-rtl .login-form-forgot {
+  } 
+  .ant-col-rtl .login-form-button {
     float: left;
   }
   .login-form-button {

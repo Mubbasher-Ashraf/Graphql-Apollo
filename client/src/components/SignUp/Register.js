@@ -1,6 +1,6 @@
 import { Form, Input, Tooltip,  Select, Row, Col, Checkbox,//Cascader,
    Button, PageHeader, DatePicker } from 'antd'; //AutoComplete,
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import Modal from '../../portals/Modal';
 import Loader from '../../common/Loader';
 import './register.css';
@@ -256,6 +256,7 @@ const Register = (props) => {
             {/* loading */}
             Register
           </Button>
+        <Link to={{ pathname: '/Login'}}> already have an account! </Link>
         </Form.Item>
       </Form>
     </div>
